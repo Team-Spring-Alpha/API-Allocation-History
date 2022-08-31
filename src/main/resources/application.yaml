@@ -1,0 +1,17 @@
+server:
+  port: 8082
+
+.env:
+  directory: .
+  filename: .env
+  prefix: ""
+
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  config:
+    import: optional:file:.env[.properties]
+  data:
+    mongodb:
+      uri: ${URI}
+      database: FilmesApollo70
