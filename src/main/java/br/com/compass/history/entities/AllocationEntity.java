@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class AllocationEntity {
     @Id
-    private String idAllocation;
+    private String allocationId;
     private String userId;
     private String cardNumber;
     private List<AllocationMovieEntity> movies;
