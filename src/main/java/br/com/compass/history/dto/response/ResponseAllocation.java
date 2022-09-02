@@ -18,5 +18,5 @@ public class ResponseAllocation {
     @JsonProperty("payment_status")
     private String paymentStatus;
     @JsonProperty("allocation_date")
-    private LocalDateTime allocationDate;
+    private LocalDateTime date;
 }
