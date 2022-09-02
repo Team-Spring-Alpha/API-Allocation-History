@@ -7,8 +7,6 @@ server:
   prefix: ""
 
 spring:
-  jackson:
-    property-naming-strategy: SNAKE_CASE
   config:
     import: optional:file:.env[.properties]
   data:
@@ -18,5 +16,5 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: rabbitmq
-    password: rabbitmq
+    username: {RABBITUSERNAME}
+    password: {RABBITPASSWORD}

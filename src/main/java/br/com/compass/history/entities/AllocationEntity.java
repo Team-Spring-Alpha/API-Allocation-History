@@ -10,11 +10,10 @@ import java.util.List;
 @Document(collection = "Allocation")
 @Data
 public class AllocationEntity {
-
-    private String userId;
     @Id
-    private String allocationNumber;
-    private int cardNumber;
+    private String idAllocation;
+    private String userId;
+    private String cardNumber;
     private List<AllocationMovieEntity> movies;
     private String paymentStatus;
     private LocalDateTime allocationDate = LocalDateTime.now();
