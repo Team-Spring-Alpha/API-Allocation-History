@@ -11,10 +11,10 @@ import java.util.List;
 @Data
 public class AllocationEntity {
     @Id
-    private String allocationId;
+    private String id;
     private String userId;
     private String cardNumber;
     private List<AllocationMovieEntity> movies;
     private String paymentStatus;
-    private LocalDateTime allocationDate = LocalDateTime.now();
+    private LocalDateTime date = LocalDateTime.now();
 }
