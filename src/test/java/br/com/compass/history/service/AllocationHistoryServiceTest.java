@@ -1,9 +1,10 @@
 package br.com.compass.history.service;
 
-import br.com.compass.history.builder.AllocationEntityBuilder;
-import br.com.compass.history.builder.RequestAllocationBuilder;
 import br.com.compass.history.dto.request.RequestAllocation;
+import br.com.compass.history.dto.request.RequestAllocationMovie;
+import br.com.compass.history.dto.response.ResponseAllocation;
 import br.com.compass.history.entities.AllocationEntity;
+import br.com.compass.history.entities.AllocationMovieEntity;
 import br.com.compass.history.repository.AllocationRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -38,38 +39,86 @@ class AllocationHistoryServiceTest {
     @Test
     @DisplayName("Should find a user by id")
     public void shouldFindAUserById() {
-        RequestAllocation requestAllocation = RequestAllocationBuilder.one().now();
-        List<AllocationEntity> list = new ArrayList<>();
-        AllocationEntity allocation = AllocationEntityBuilder.one().withRequestAllocation(requestAllocation).now();
-        list.add(allocation);
-        Mockito.when(allocationRepository.findByUserId(allocation.getUserId())).thenReturn(Optional.of(list));
-        allocationHistoryService.findByUserId(allocation.getUserId());
+        RequestAllocation requestAllocation = buildRequestAllocation("user id", "card test", "movie test", "Approved");
 
-        Mockito.verify(allocationRepository, Mockito.times(1)).findByUserId(allocation.getUserId());
-        Assertions.assertEquals("1", allocation.getUserId());
+        AllocationEntity allocationEntity = buildAllocationEntity("id", "user id", "card test", "movie test", "Approved");
+        List<AllocationEntity> allocationEntityList = new ArrayList<>();
+        allocationEntityList.add(allocationEntity);
+
+        Mockito.when(allocationRepository.findByUserId(requestAllocation.getUserId())).thenReturn(Optional.of(allocationEntityList));
+
+        List<ResponseAllocation> responseAllocationList = allocationHistoryService.findByUserId(requestAllocation.getUserId());
+
+        responseAllocationList.forEach(responseAllocation ->
+                Assertions.assertEquals(requestAllocation.getUserId(), responseAllocation.getUserId())
+        );
+
+        responseAllocationList.forEach(responseAllocation ->
+                Assertions.assertEquals(requestAllocation.getCardNumber(), responseAllocation.getCardNumber())
+        );
+
+        responseAllocationList.forEach(responseAllocation ->
+                Assertions.assertEquals(requestAllocation.getPaymentStatus(), responseAllocation.getPaymentStatus())
+        );
+
+        responseAllocationList.forEach(responseAllocation ->
+                Assertions.assertEquals(requestAllocation.getMovies().get(0).getName(), responseAllocation.getMovies().get(0).getName())
+        );
+
+        responseAllocationList.forEach(responseAllocation ->
+                Assertions.assertEquals(requestAllocation.getMovies().get(0).getId(), responseAllocation.getMovies().get(0).getId())
+        );
+
     }
 
     @Test
     @DisplayName("Should throw an exception when try find an nonexistent user ")
     public void shouldThrowAnExceptionWhenTryFindAnUserNonexistent() {
-        RequestAllocation requestAllocation = RequestAllocationBuilder.one().now();
-        List<AllocationEntity> list = new ArrayList<>();
-        AllocationEntity allocation = AllocationEntityBuilder.one().withRequestAllocation(requestAllocation).now();
-        list.add(allocation);
-
         Assertions.assertThrows(ResponseStatusException.class, () -> allocationHistoryService.findByUserId("teste"));
     }
     @Test
     @DisplayName("should save an allocation movie")
     public void shouldSaveAnAllocationMovie() {
-        RequestAllocation requestAllocation = RequestAllocation.builder()
-                .cardNumber("test")
-                .userId("user Test")
-                .build();
+        RequestAllocation requestAllocation = buildRequestAllocation("test", "test", "test", "test");
 
         allocationHistoryService.createdAllocation(requestAllocation);
 
         Mockito.verify(allocationRepository).save(any());
 
+    }
+
+    private RequestAllocation buildRequestAllocation(String userId, String cardNumber, String movieName, String paymentStatus) {
+        RequestAllocationMovie requestAllocationMovie = RequestAllocationMovie.builder()
+                .id(1L)
+                .name(movieName)
+                .build();
+
+        List<RequestAllocationMovie> requestAllocationMovieList = new ArrayList<>();
+        requestAllocationMovieList.add(requestAllocationMovie);
+
+        return RequestAllocation.builder()
+                .userId(userId)
+                .cardNumber(cardNumber)
+                .movies(requestAllocationMovieList)
+                .paymentStatus(paymentStatus)
+                .build();
+    }
+
+    private AllocationEntity buildAllocationEntity(String id, String userId, String cardNumber, String movieName, String paymentStatus) {
+        AllocationMovieEntity movieEntity = AllocationMovieEntity.builder()
+                .id(1L)
+                .name(movieName)
+                .build();
+
+        List<AllocationMovieEntity> movieEntityList = new ArrayList<>();
+        movieEntityList.add(movieEntity);
+
+        return AllocationEntity.builder()
+                .id(id)
+                .userId(userId)
+                .cardNumber(cardNumber)
+                .movies(movieEntityList)
+                .paymentStatus(paymentStatus)
+                .build();
     }
 }
