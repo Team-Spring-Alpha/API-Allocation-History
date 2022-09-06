@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class AllocationHistoryService {
         return collect;
     }
 
-    public void createdAllocation(RequestAllocation allocation) {
+    public void createdAllocation(@Valid RequestAllocation allocation) {
         AllocationEntity entity = modelMapper.map(allocation, AllocationEntity.class);
         repository.save(entity);
     }
