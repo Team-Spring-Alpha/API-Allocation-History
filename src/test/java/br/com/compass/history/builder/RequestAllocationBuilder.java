@@ -18,7 +18,7 @@ public class RequestAllocationBuilder {
         builder.allocation = new RequestAllocation();
 
         builder.allocation.setUserId("1");
-        builder.allocation.setCardNumber(438184557);
+        builder.allocation.setCardNumber("438184557");
         builder.allocation.setPaymentStatus("APPROVED");
 
         List<RequestAllocationMovie> movies = new ArrayList<>();

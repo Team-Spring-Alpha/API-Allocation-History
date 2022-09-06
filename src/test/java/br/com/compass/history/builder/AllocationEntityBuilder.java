@@ -1,7 +1,6 @@
 package br.com.compass.history.builder;
 
 import br.com.compass.history.dto.request.RequestAllocation;
-import br.com.compass.history.dto.request.RequestAllocationMovie;
 import br.com.compass.history.entities.AllocationEntity;
 import br.com.compass.history.entities.AllocationMovieEntity;
 
@@ -21,7 +20,7 @@ public class AllocationEntityBuilder {
         builder.allocation = new AllocationEntity();
 
         builder.allocation.setUserId("1");
-        builder.allocation.setCardNumber(438184557);
+        builder.allocation.setCardNumber("438184557");
         builder.allocation.setPaymentStatus("APPROVED");
 
         List<AllocationMovieEntity> movies = new ArrayList<>();
@@ -42,7 +41,7 @@ public class AllocationEntityBuilder {
     }
 
     public AllocationEntityBuilder withRequestAllocation(RequestAllocation allocation){
-        this.allocation.setAllocationNumber("1");
+        this.allocation.setId("1");
         this.allocation.setUserId(allocation.getUserId());
         this.allocation.setCardNumber(allocation.getCardNumber());
         this.allocation.setPaymentStatus(allocation.getPaymentStatus());

@@ -17,7 +17,7 @@ public class RequestAllocationMovieBuilder {
         RequestAllocationMovieBuilder builder = new RequestAllocationMovieBuilder();
         builder.requestAllocationMovie = new RequestAllocationMovie();
 
-        builder.requestAllocationMovie.setId(1l);
+        builder.requestAllocationMovie.setId(1L);
         builder.requestAllocationMovie.setName("teste");
 
         return builder;
