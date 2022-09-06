@@ -25,9 +25,8 @@ public class AllocationHistoryService {
 
     public List<ResponseAllocation> findByUserId(String userId){
         List<AllocationEntity> allocationEntities = repository.findByUserId(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        List<ResponseAllocation> collect = allocationEntities.stream().map(allocationEntity ->
+        return allocationEntities.stream().map(allocationEntity ->
                 modelMapper.map(allocationEntity, ResponseAllocation.class)).collect(Collectors.toList());
-        return collect;
     }
 
     public void createdAllocation(@Valid RequestAllocation allocation) {
