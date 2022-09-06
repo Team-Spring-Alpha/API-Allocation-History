@@ -1,4 +1,4 @@
-package br.com.compass.history.consumer;
+package br.com.compass.history.listeners;
 
 import br.com.compass.history.dto.request.RequestAllocation;
 import br.com.compass.history.service.AllocationHistoryService;

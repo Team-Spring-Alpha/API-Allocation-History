@@ -6,6 +6,9 @@ import br.com.compass.history.dto.request.RequestAllocation;
 import br.com.compass.history.entities.AllocationEntity;
 import br.com.compass.history.repository.AllocationRepository;
 import org.junit.jupiter.api.Assertions;
+import br.com.compass.history.dto.request.RequestAllocation;
+import br.com.compass.history.entities.AllocationEntity;
+import br.com.compass.history.repository.AllocationRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -15,10 +18,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+
 
 @SpringBootTest(classes = AllocationHistoryService.class)
 class AllocationHistoryServiceTest {
@@ -55,5 +60,20 @@ class AllocationHistoryServiceTest {
         list.add(allocation);
 
         Assertions.assertThrows(ResponseStatusException.class, () -> allocationHistoryService.findByUserId("teste"));
+
+
+
+    @Test
+    @DisplayName("should save an allocation movie")
+    void shouldSaveAnAllocationMovie() {
+        RequestAllocation requestAllocation = RequestAllocation.builder()
+                .cardNumber("test")
+                .userId("user Test")
+                .build();
+
+        allocationHistoryService.createdAllocation(requestAllocation);
+
+        Mockito.verify(repository).save(any());
+
     }
 }

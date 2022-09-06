@@ -11,12 +11,12 @@ public class ResponseAllocation {
     @JsonProperty("user_id")
     private String userId;
     @JsonProperty("allocation_number")
-    private String allocationNumber;
+    private String id;
     @JsonProperty("card_number")
-    private int cardNumber;
+    private String cardNumber;
     private List<ResponseAllocationMovie> movies;
     @JsonProperty("payment_status")
     private String paymentStatus;
     @JsonProperty("allocation_date")
-    private LocalDateTime allocationDate;
+    private LocalDateTime date;
 }
