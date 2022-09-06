@@ -79,10 +79,7 @@ class AllocationHistoryServiceTest {
     @Test
     @DisplayName("should save an allocation movie")
     public void shouldSaveAnAllocationMovie() {
-        RequestAllocation requestAllocation = RequestAllocation.builder()
-                .cardNumber("test")
-                .userId("user Test")
-                .build();
+        RequestAllocation requestAllocation = buildRequestAllocation("test", "test", "test", "test");
 
         allocationHistoryService.createdAllocation(requestAllocation);
 
