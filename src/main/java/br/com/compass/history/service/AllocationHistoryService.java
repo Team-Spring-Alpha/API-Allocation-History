@@ -1,7 +1,7 @@
 package br.com.compass.history.service;
 
-import br.com.compass.history.dto.request.RequestAllocation;
-import br.com.compass.history.dto.response.ResponseAllocation;
+import br.com.compass.history.dto.request.RequestAllocationDTO;
+import br.com.compass.history.dto.response.ResponseAllocationDTO;
 import br.com.compass.history.entities.AllocationEntity;
 import br.com.compass.history.repository.AllocationRepository;
 import org.modelmapper.ModelMapper;
@@ -24,14 +24,14 @@ public class AllocationHistoryService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<ResponseAllocation> findByUserId(String userId){
+    public List<ResponseAllocationDTO> findByUserId(String userId){
         List<AllocationEntity> allocationEntities = repository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "date"))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return allocationEntities.stream().map(allocationEntity ->
-                modelMapper.map(allocationEntity, ResponseAllocation.class)).collect(Collectors.toList());
+                modelMapper.map(allocationEntity, ResponseAllocationDTO.class)).collect(Collectors.toList());
     }
 
-    public void createdAllocation(@Valid RequestAllocation allocation) {
+    public void createdAllocation(@Valid RequestAllocationDTO allocation) {
         AllocationEntity entity = modelMapper.map(allocation, AllocationEntity.class);
         repository.save(entity);
     }

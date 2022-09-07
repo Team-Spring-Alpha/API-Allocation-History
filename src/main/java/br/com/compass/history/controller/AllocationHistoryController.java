@@ -1,6 +1,6 @@
 package br.com.compass.history.controller;
 
-import br.com.compass.history.dto.response.ResponseAllocation;
+import br.com.compass.history.dto.response.ResponseAllocationDTO;
 import br.com.compass.history.service.AllocationHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +16,8 @@ public class AllocationHistoryController {
     private AllocationHistoryService service;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<ResponseAllocation>> getByUser(@PathVariable String userId){
-        List<ResponseAllocation> byUserId = service.findByUserId(userId);
+    public ResponseEntity<List<ResponseAllocationDTO>> getByUser(@PathVariable String userId){
+        List<ResponseAllocationDTO> byUserId = service.findByUserId(userId);
         return ResponseEntity.ok(byUserId);
     }
 }
