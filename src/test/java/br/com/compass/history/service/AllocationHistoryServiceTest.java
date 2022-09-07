@@ -1,8 +1,8 @@
 package br.com.compass.history.service;
 
-import br.com.compass.history.dto.request.RequestAllocation;
-import br.com.compass.history.dto.request.RequestAllocationMovie;
-import br.com.compass.history.dto.response.ResponseAllocation;
+import br.com.compass.history.dto.request.RequestAllocationDTO;
+import br.com.compass.history.dto.request.RequestAllocationMovieDTO;
+import br.com.compass.history.dto.response.ResponseAllocationDTO;
 import br.com.compass.history.entities.AllocationEntity;
 import br.com.compass.history.entities.AllocationMovieEntity;
 import br.com.compass.history.repository.AllocationRepository;
@@ -40,34 +40,34 @@ class AllocationHistoryServiceTest {
     @Test
     @DisplayName("Should find a user by id")
     public void shouldFindAUserById() {
-        RequestAllocation requestAllocation = buildRequestAllocation("user id", "card test", "movie test", "Approved");
+        RequestAllocationDTO requestAllocationDTO = buildRequestAllocation("user id", "card test", "movie test", "Approved");
 
         AllocationEntity allocationEntity = buildAllocationEntity("id", "user id", "card test", "movie test", "Approved");
         List<AllocationEntity> allocationEntityList = new ArrayList<>();
         allocationEntityList.add(allocationEntity);
 
-        Mockito.when(allocationRepository.findByUserId(requestAllocation.getUserId(), Sort.by(Sort.Direction.DESC, "date"))).thenReturn(Optional.of(allocationEntityList));
+        Mockito.when(allocationRepository.findByUserId(requestAllocationDTO.getUserId(), Sort.by(Sort.Direction.DESC, "date"))).thenReturn(Optional.of(allocationEntityList));
 
-        List<ResponseAllocation> responseAllocationList = allocationHistoryService.findByUserId(requestAllocation.getUserId());
+        List<ResponseAllocationDTO> responseAllocationDTOList = allocationHistoryService.findByUserId(requestAllocationDTO.getUserId());
 
-        responseAllocationList.forEach(responseAllocation ->
-                Assertions.assertEquals(requestAllocation.getUserId(), responseAllocation.getUserId())
+        responseAllocationDTOList.forEach(responseAllocationDTO ->
+                Assertions.assertEquals(requestAllocationDTO.getUserId(), responseAllocationDTO.getUserId())
         );
 
-        responseAllocationList.forEach(responseAllocation ->
-                Assertions.assertEquals(requestAllocation.getCardNumber(), responseAllocation.getCardNumber())
+        responseAllocationDTOList.forEach(responseAllocationDTO ->
+                Assertions.assertEquals(requestAllocationDTO.getCardNumber(), responseAllocationDTO.getCardNumber())
         );
 
-        responseAllocationList.forEach(responseAllocation ->
-                Assertions.assertEquals(requestAllocation.getPaymentStatus(), responseAllocation.getPaymentStatus())
+        responseAllocationDTOList.forEach(responseAllocationDTO ->
+                Assertions.assertEquals(requestAllocationDTO.getPaymentStatus(), responseAllocationDTO.getPaymentStatus())
         );
 
-        responseAllocationList.forEach(responseAllocation ->
-                Assertions.assertEquals(requestAllocation.getMovies().get(0).getName(), responseAllocation.getMovies().get(0).getName())
+        responseAllocationDTOList.forEach(responseAllocationDTO ->
+                Assertions.assertEquals(requestAllocationDTO.getMovies().get(0).getName(), responseAllocationDTO.getMovies().get(0).getName())
         );
 
-        responseAllocationList.forEach(responseAllocation ->
-                Assertions.assertEquals(requestAllocation.getMovies().get(0).getId(), responseAllocation.getMovies().get(0).getId())
+        responseAllocationDTOList.forEach(responseAllocationDTO ->
+                Assertions.assertEquals(requestAllocationDTO.getMovies().get(0).getId(), responseAllocationDTO.getMovies().get(0).getId())
         );
 
     }
@@ -80,27 +80,27 @@ class AllocationHistoryServiceTest {
     @Test
     @DisplayName("should save an allocation movie")
     public void shouldSaveAnAllocationMovie() {
-        RequestAllocation requestAllocation = buildRequestAllocation("test", "test", "test", "test");
+        RequestAllocationDTO requestAllocationDTO = buildRequestAllocation("test", "test", "test", "test");
 
-        allocationHistoryService.createdAllocation(requestAllocation);
+        allocationHistoryService.createdAllocation(requestAllocationDTO);
 
         Mockito.verify(allocationRepository).save(any());
 
     }
 
-    private RequestAllocation buildRequestAllocation(String userId, String cardNumber, String movieName, String paymentStatus) {
-        RequestAllocationMovie requestAllocationMovie = RequestAllocationMovie.builder()
+    private RequestAllocationDTO buildRequestAllocation(String userId, String cardNumber, String movieName, String paymentStatus) {
+        RequestAllocationMovieDTO requestAllocationMovieDTO = RequestAllocationMovieDTO.builder()
                 .id(1L)
                 .name(movieName)
                 .build();
 
-        List<RequestAllocationMovie> requestAllocationMovieList = new ArrayList<>();
-        requestAllocationMovieList.add(requestAllocationMovie);
+        List<RequestAllocationMovieDTO> requestAllocationMovieDTOList = new ArrayList<>();
+        requestAllocationMovieDTOList.add(requestAllocationMovieDTO);
 
-        return RequestAllocation.builder()
+        return RequestAllocationDTO.builder()
                 .userId(userId)
                 .cardNumber(cardNumber)
-                .movies(requestAllocationMovieList)
+                .movies(requestAllocationMovieDTOList)
                 .paymentStatus(paymentStatus)
                 .build();
     }
