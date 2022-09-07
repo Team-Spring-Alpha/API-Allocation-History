@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestAllocationMovie {
+public class RequestAllocationMovieDTO {
     @NotNull
     private Long id;
     @NotBlank
