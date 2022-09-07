@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ class AllocationHistoryServiceTest {
         List<AllocationEntity> allocationEntityList = new ArrayList<>();
         allocationEntityList.add(allocationEntity);
 
-        Mockito.when(allocationRepository.findByUserId(requestAllocation.getUserId())).thenReturn(Optional.of(allocationEntityList));
+        Mockito.when(allocationRepository.findByUserId(requestAllocation.getUserId(), Sort.by(Sort.Direction.DESC, "date"))).thenReturn(Optional.of(allocationEntityList));
 
         List<ResponseAllocation> responseAllocationList = allocationHistoryService.findByUserId(requestAllocation.getUserId());
 

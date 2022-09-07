@@ -6,6 +6,7 @@ import br.com.compass.history.entities.AllocationEntity;
 import br.com.compass.history.repository.AllocationRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,7 +25,8 @@ public class AllocationHistoryService {
     private ModelMapper modelMapper;
 
     public List<ResponseAllocation> findByUserId(String userId){
-        List<AllocationEntity> allocationEntities = repository.findByUserId(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        List<AllocationEntity> allocationEntities = repository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "date"))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return allocationEntities.stream().map(allocationEntity ->
                 modelMapper.map(allocationEntity, ResponseAllocation.class)).collect(Collectors.toList());
     }
