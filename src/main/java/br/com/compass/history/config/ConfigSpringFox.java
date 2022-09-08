@@ -23,6 +23,7 @@ public class ConfigSpringFox {
                     .apis(RequestHandlerSelectors.basePackage("br.com.compass.history.controller"))
                     .paths(PathSelectors.regex("/api/allocation-history.*"))
                     .build()
+                .useDefaultResponseMessages(false)
                 .apiInfo(metaData());
     }
 
