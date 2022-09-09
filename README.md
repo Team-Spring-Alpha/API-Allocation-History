@@ -7,9 +7,7 @@
 
 ## Fluxo de Funcionamento da Aplicação
 
-O `Allocation-History` recebe por meio do microserviço `API-User` informações sobre a alocação/compra e então salva isso em um banco de dados Mongo. Para a inserção de dados no histórico a aplicação recebe algumas informações por mensageria e caso o usuário queira acessar o histórico ele pode fazer isso por meio de um endpoint GET.
-
-// Descrever melhor a aplicação //
+O `Allocation-History` é um dos microserviços do porjeto e ele recebe por meio do outro microserviço `API-User` informações sobre a alocação/compra e então salva isso em um banco de dados Mongo. Para a inserção de dados no histórico a aplicação recebe algumas informações por mensageria e caso o usuário queira acessar o histórico ele pode fazer isso por meio de um endpoint GET.
 
 ## Funcionalidades
 
