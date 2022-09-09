@@ -88,6 +88,19 @@ class AllocationHistoryServiceTest {
 
     }
 
+    @Test
+    @DisplayName("Should throw exception when list is emptied")
+    public void shouldThrowExceptionWhenListIsEmptied() {
+        RequestAllocationDTO requestAllocationDTO = buildRequestAllocation("user id", "card test", "movie test", "Approved");
+
+        List<AllocationEntity> allocationEntityList = new ArrayList<>();
+
+
+        Mockito.when(allocationRepository.findByUserId(requestAllocationDTO.getUserId(), Sort.by(Sort.Direction.DESC, "date"))).thenReturn(Optional.of(allocationEntityList));
+
+        Assertions.assertThrows(ResponseStatusException.class, () -> allocationHistoryService.findByUserId(requestAllocationDTO.getUserId()));
+    }
+
     private RequestAllocationDTO buildRequestAllocation(String userId, String cardNumber, String movieName, String paymentStatus) {
         RequestAllocationMovieDTO requestAllocationMovieDTO = RequestAllocationMovieDTO.builder()
                 .id(1L)
